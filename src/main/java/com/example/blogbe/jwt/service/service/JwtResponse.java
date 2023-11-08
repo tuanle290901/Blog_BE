@@ -1,4 +1,4 @@
-package com.example.blogbe.jwt.service;
+package com.example.blogbe.jwt.service.service;
 
 import org.springframework.security.core.GrantedAuthority;
 
