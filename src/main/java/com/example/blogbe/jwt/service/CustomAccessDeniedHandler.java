@@ -1,4 +1,4 @@
-package com.example.blogbe.jwt;
+package com.example.blogbe.jwt.service;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
