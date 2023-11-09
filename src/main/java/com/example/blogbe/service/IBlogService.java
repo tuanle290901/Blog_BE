@@ -14,4 +14,11 @@ public interface IBlogService {
 
 
     void delete(int id);
+    List<Blog> getBlogsByAccountId(int accountId);
+
+
+    Blog addBlog(Account account, Blog blog);
+
+
+
 }

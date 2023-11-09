@@ -1,4 +1,4 @@
-package com.example.blogbe.jwt;
+package com.example.blogbe.jwt.service;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

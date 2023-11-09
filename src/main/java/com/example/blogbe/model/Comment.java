@@ -14,6 +14,7 @@ public class Comment {
     @Column(length = 1000)
     private String content;
 
+
     @ManyToOne
     private Account account;
 }

@@ -11,8 +11,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 50)
-    private String username;
 
     @Column(length = 255)
     private String password;
@@ -29,5 +27,9 @@ public class Account {
     private String phoneNumber;
 
     @Column(length = 255)
-    private String fullName;
+    private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
+    @Column(columnDefinition="tinyint(1) default 0")
+    private boolean isAuth;
 }
