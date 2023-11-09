@@ -5,6 +5,7 @@ import com.example.blogbe.exeption.EmailExitsException;
 import com.example.blogbe.jwt.service.service.JwtResponse;
 import com.example.blogbe.jwt.service.service.JwtService;
 import com.example.blogbe.model.Account;
+import com.example.blogbe.model.Blog;
 import com.example.blogbe.request.LoginRequest;
 import com.example.blogbe.request.RegisterRequest;
 import com.example.blogbe.service.impl.AccountService;
@@ -59,6 +60,16 @@ public class AuthController {
         } catch (Exception e) {
             return new ResponseEntity<>("Lỗi hệ thống, chi tiết: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Account> findAccountByID(@PathVariable int id) {
+        Account account = accountService.findById(id);
+
+        if (account == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(account);
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.POST)
