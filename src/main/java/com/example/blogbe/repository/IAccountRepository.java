@@ -17,10 +17,12 @@ public interface IAccountRepository extends JpaRepository<Account,Integer> {
 
     boolean existsByEmail(String email);
 
+
     Optional<Account> findAccountByEmail(String email);
 
 
     Integer countAccountByRoleId(int id);
+
 
     @Modifying
     @Query(nativeQuery = true,value = "UPDATE musicweb_md6.account SET `is_auth` = '1' WHERE id = :idUser")

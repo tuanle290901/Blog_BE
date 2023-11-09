@@ -32,7 +32,7 @@ public class AccountService implements UserDetailsService, IAccountService {
     @Autowired
     IRoleRepository iRoleRepository;
 
-    public Account findByEmail(String email) {
+    public Account findAllByEmail(String email) {
         return iAccountRepository.findAllByEmail(email);
     }
 
@@ -95,5 +95,9 @@ public class AccountService implements UserDetailsService, IAccountService {
     @Override
     public Integer setAuth(@PathVariable Integer id) {
         return iAccountRepository.setAuth(id);
+    }
+
+    public Account findByEmail(String email) {
+        return iAccountRepository.findAccountByEmail(email).get();
     }
 }
