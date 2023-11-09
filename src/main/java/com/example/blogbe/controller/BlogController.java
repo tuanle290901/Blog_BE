@@ -1,29 +1,29 @@
 package com.example.blogbe.controller;
 
+import com.example.blogbe.model.Account;
 import com.example.blogbe.model.Blog;
 import com.example.blogbe.service.IAccountService;
 import com.example.blogbe.service.IBlogService;
+import com.example.blogbe.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/blog")
+@RequestMapping("/api/blog")
 public class BlogController {
 
     @Autowired
     IBlogService iBlogService;
     @Autowired
-    IAccountService iAccountService;
+    AccountService accountService;
 
-    @PostMapping("/add")
-    public ResponseEntity<Blog> addBlog(@RequestBody Blog blog) {
-        iBlogService.save(blog);
-        return new ResponseEntity<>(blog, HttpStatus.OK);
-    }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Blog> findBlogByID(@PathVariable int id) {
@@ -48,4 +48,34 @@ public class BlogController {
         iBlogService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/account/{accountId}")
+    public List<Blog> getBlogsByAccountId(@PathVariable int accountId) {
+        return iBlogService.getBlogsByAccountId(accountId);
+    }
+
+
+    public Account getCurrentAccount() {
+        try {
+            String email = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.isAuthenticated()) {
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                email = userDetails.getUsername();
+            }
+            return accountService.findByEmail(email);
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    @PostMapping("/add")
+    public ResponseEntity<?> addBlog(@RequestBody Blog blog) {
+        Account account = getCurrentAccount();
+        if (account == null) {
+            return new ResponseEntity<>("Vui lòng đăng nhập", HttpStatus.UNAUTHORIZED);
+        }
+        Blog savedBlog = iBlogService.addBlog(account, blog);
+        return new ResponseEntity<>(savedBlog, HttpStatus.OK);
+    }
+
 }

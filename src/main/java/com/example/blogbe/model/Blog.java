@@ -19,14 +19,19 @@ public class Blog {
     @Column(length = 1000)
     private String content;
 
-
     @Lob
     private String avatar;
+    @Lob
+    private String image;
+    @Lob
+    private String image2;
+    @Lob
+    private String image3;
 
     @Column(length = 1000)
     private String description;
 
-    private LocalDate timeComment;
+    private LocalDate timeCreate;
 
     private LocalDate timeEdit;
 
