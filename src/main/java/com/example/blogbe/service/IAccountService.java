@@ -14,4 +14,6 @@ public interface IAccountService {
     Integer getAccountQuantity();
 
     Integer setAuth(Integer id);
+    void update(Account account);
+
 }

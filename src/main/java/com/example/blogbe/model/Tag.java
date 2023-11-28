@@ -14,7 +14,4 @@ public class Tag {
 
     @Column(length = 50)
     private String name;
-
-
-
 }

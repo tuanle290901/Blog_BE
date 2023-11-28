@@ -20,5 +20,7 @@ public class RegisterRequest {
 //    @NotNull
 //    @Pattern()
     private String phone;
+    private String address;
     private Role role;
+    // không có address à cu mowis theem
 }

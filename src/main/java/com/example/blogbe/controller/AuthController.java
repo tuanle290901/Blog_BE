@@ -6,6 +6,7 @@ import com.example.blogbe.jwt.service.service.JwtResponse;
 import com.example.blogbe.jwt.service.service.JwtService;
 import com.example.blogbe.model.Account;
 import com.example.blogbe.model.Blog;
+import com.example.blogbe.request.ChangePasswordRequest;
 import com.example.blogbe.request.LoginRequest;
 import com.example.blogbe.request.RegisterRequest;
 import com.example.blogbe.service.impl.AccountService;
@@ -85,5 +86,26 @@ public class AuthController {
         } else {
             return new ResponseEntity<>(account, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+
+        Account account = accountService.findByEmail(currentEmail);
+
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+
+        if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), account.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password is incorrect");
+        }
+
+        account.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+        accountService.update(account);
+
+        return ResponseEntity.ok(account);
     }
 }

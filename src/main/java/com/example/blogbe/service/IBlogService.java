@@ -10,15 +10,27 @@ public interface IBlogService {
 
     List<Blog> getAll();
 
+    List<Blog> getAllNoPermissions();
+
     Blog findById(int id);
 
+
+    List<Blog> getBlogsByTitle(String title);
+
+    List<Blog> getBlogsByTitleForPermissions(String title);
 
     void delete(int id);
     List<Blog> getBlogsByAccountId(int accountId);
 
 
+    List<Blog> getBlogsByAccountIdNoPermission(int accountId);
+
     Blog addBlog(Account account, Blog blog);
 
 
+    List<Blog> getBlogsByTagName(String tagName);
 
+    List<Blog> getLatest4Blogs();
+
+    List<Blog> getLatest4BlogsNew();
 }

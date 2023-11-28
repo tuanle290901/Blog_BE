@@ -62,9 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*"); // Cho phép tất cả các origin (cần điều chỉnh cho môi trường sản xuất)
-        configuration.addAllowedMethod("*"); // Cho phép tất cả các phương thức HTTP (GET, POST, PUT, DELETE, v.v.)
-        configuration.addAllowedHeader("*"); // Cho phép tất cả các header
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -72,31 +72,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
-        // Disable crsf cho đường dẫn /api/**
         http.csrf().ignoringAntMatchers("/api/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/blog/**").permitAll()
-                .antMatchers("/apiAccount/**").permitAll()
-                .antMatchers("/genres").permitAll()
-                .antMatchers("/songs/**").permitAll()
+                .antMatchers("/api/tag/**").permitAll()
+                .antMatchers("/api/blog/find/**").permitAll()
                 .antMatchers("/comments/**").permitAll()
-                .antMatchers("/playlistLikes/**").permitAll()
-                .antMatchers("/songs/getByGenresID/**").permitAll()
-                .antMatchers("/playlist/**").permitAll()
-                .antMatchers("/ws/**").permitAll()
-                .antMatchers("/notification/**").permitAll()
-                .antMatchers("/apiAccount/auth/**").permitAll()
-                .antMatchers("/apiAccount/informationEmail/**").permitAll()
                 // add test -----------
-                .antMatchers(HttpMethod.GET, "/songs/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/songs/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/admin/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/admin/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/**").permitAll()
                 // add test ----------
-                .antMatchers("/songs/**").permitAll() //Test
-                .antMatchers("/likes/**").permitAll() //Test
+                .antMatchers("/api/**").permitAll() //Test
+                .antMatchers("/api/**").permitAll() //Test
                 .antMatchers(HttpMethod.GET, "/api/candies/**", "/api/categories/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/candies/**", "/api/categories/**").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/candies/**", "/api/categories/**").hasAnyRole("ADMIN")

@@ -6,19 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Comment {
+public class BlogImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 1000)
-    private String content;
-
+    @Lob
+    private String imageUrl;
 
     @ManyToOne
     private Blog blog;
-
-
-    @ManyToOne
-    private Account account;
 }
